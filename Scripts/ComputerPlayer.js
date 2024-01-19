@@ -39,7 +39,10 @@ function calculateOpponentMove(){
             movesPlayed++;
         }
     
-        let {oldI, oldJ, newI, newJ} = m.move;
+        let oldI = m.move.oldI;
+        let oldJ = m.move.oldJ;
+        let newI = m.move.newI;
+        let newJ = m.move.newJ;
     
         makeMove(oldI, oldJ, newI, newJ);
     
@@ -57,9 +60,10 @@ function MAXIMIZE(B, depth, alpha, beta){
 
     for(let i = 0; i < possibilities.length; i++){
         let cloneBoard = copyBoard(B);
-        let {newI} = possibilities[i];
+        let newI = possibilities[i].newI;
         let newJ = possibilities[i].newJ;
-        let {newJ} = possibilities[i];i];
+        let oldI = possibilities[i].oldI;
+        let oldJ = possibilities[i].oldJ;
 
         cloneBoard.Squares[newI][newJ].piece = cloneBoard.Squares[oldI][oldJ].piece;
         cloneBoard.Squares[oldI][oldJ].piece = undefined;
@@ -75,7 +79,9 @@ function MAXIMIZE(B, depth, alpha, beta){
             bestMoves.push(possibilities[i]);
             maximizeUtility = result.utility;
         }
-        alpha = Math.min(alpha, result.utility);
+        if(alpha > result.utility){
+            alpha = result.utility;
+        }
         if(beta < alpha){
             break;
         }
@@ -113,10 +119,10 @@ function MINIMIZE(B, depth, alpha, beta){
 
     for(let i = 0; i < possibilities.length; i++){
         let cloneBoard = copyBoard(B);
-        let {newI} = possibilities[i];
-        let {newJ} = possibilities[i];
-        let {oldI} = possibilities[i];
-        let {oldJ} = possibilities[i];
+        let newI = possibilities[i].newI;
+        let newJ = possibilities[i].newJ;
+        let oldI = possibilities[i].oldI;
+        let oldJ = possibilities[i].oldJ;
         
 
         cloneBoard.Squares[newI][newJ].piece = cloneBoard.Squares[oldI][oldJ].piece;
@@ -133,7 +139,9 @@ function MINIMIZE(B, depth, alpha, beta){
             bestMoves.push(possibilities[i]);
             minimizeUtility = result.utility;
         }
-        beta = Math.max(beta, result.utility)
+        if(beta < result.utility){
+            beta = result.utility;
+        }
         if(beta < alpha){
             break;
         }
@@ -203,3 +211,7 @@ function getAllMoves(B,s){
         }
         return moves;
 }
+
+
+
+
