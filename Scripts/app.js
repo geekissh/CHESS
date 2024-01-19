@@ -931,7 +931,7 @@ function makePromotion(color, i, j){
 }
 function checkFlag() {
     if(makingPromotion == true) {
-       window.setTimeout(checkFlag, 100); /* this checks the flag every 100 milliseconds*/
+       window.setTimeout(checkFlag, 100); /* this checks the flag every 100 milliseconds or so*/
     } else {
       /* do something*/
     }
